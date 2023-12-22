@@ -1,0 +1,32 @@
+Dec 22 15:27:48.002 HYPERVISOR: Release 0.2.17-x86/Windows (tag 2017072410)
+Dec 22 15:27:48.003 HYPERVISOR: Started on IP = localhost, TCP port = 59632.
+Dec 22 15:27:48.258 HYPERVISOR: exec_cmd: hypervisor version 
+Dec 22 15:27:48.258 HYPERVISOR: exec_cmd: hypervisor working_dir C:\Users\theoa\OneDrive\Bureau\INSA\TC\GIT\GNS3\GNS3\project-files\dynamips 
+Dec 22 15:27:48.263 GENERAL: working_dir=C:\Users\theoa\OneDrive\Bureau\INSA\TC\GIT\GNS3\GNS3\project-files\dynamips
+Dec 22 15:27:48.264 HYPERVISOR: exec_cmd: hypervisor working_dir C:\Users\theoa\OneDrive\Bureau\INSA\TC\GIT\GNS3\GNS3\project-files\dynamips\4aa76159-a498-44ee-bfef-d670702ebbbb 
+Dec 22 15:27:48.264 GENERAL: working_dir=C:\Users\theoa\OneDrive\Bureau\INSA\TC\GIT\GNS3\GNS3\project-files\dynamips\4aa76159-a498-44ee-bfef-d670702ebbbb
+Dec 22 15:27:48.264 HYPERVISOR: exec_cmd: vm create R1 1 c7200 
+Dec 22 15:27:48.266 VM: VM R1 created.
+Dec 22 15:27:48.267 HYPERVISOR: exec_cmd: vm set_con_tcp_port R1 5000 
+Dec 22 15:27:48.267 HYPERVISOR: exec_cmd: c7200 get_mac_addr R1 
+Dec 22 15:27:48.267 HYPERVISOR: exec_cmd: vm get_status R1 
+Dec 22 15:27:48.268 HYPERVISOR: exec_cmd: vm slot_add_binding R1 0 0 C7200-IO-FE 
+Dec 22 15:27:48.268 HYPERVISOR: exec_cmd: vm set_disk0 R1 0 
+Dec 22 15:27:48.269 HYPERVISOR: exec_cmd: vm set_exec_area R1 64 
+Dec 22 15:27:48.270 HYPERVISOR: exec_cmd: vm set_ios R1 C:/Users/theoa/GNS3/images/IOS/c7200-advipservicesk9-mz.152-4.S5.image 
+Dec 22 15:27:48.270 HYPERVISOR: exec_cmd: c7200 set_mac_addr R1 ca01.4e80.0000 
+Dec 22 15:27:48.271 HYPERVISOR: exec_cmd: vm set_nvram R1 512 
+Dec 22 15:27:48.271 HYPERVISOR: exec_cmd: vm set_ram R1 512 
+Dec 22 15:27:48.272 HYPERVISOR: exec_cmd: vm get_status R1 
+Dec 22 15:27:48.272 HYPERVISOR: exec_cmd: vm slot_add_binding R1 1 0 PA-GE 
+Dec 22 15:27:48.272 HYPERVISOR: exec_cmd: vm get_status R1 
+Dec 22 15:27:48.273 HYPERVISOR: exec_cmd: vm slot_add_binding R1 2 0 PA-GE 
+Dec 22 15:27:48.274 HYPERVISOR: exec_cmd: vm get_status R1 
+Dec 22 15:27:48.274 HYPERVISOR: exec_cmd: vm slot_add_binding R1 3 0 PA-GE 
+Dec 22 15:27:51.119 HYPERVISOR: exec_cmd: vm get_status R1 
+Dec 22 15:27:51.120 HYPERVISOR: exec_cmd: vm extract_config R1 
+Dec 22 15:27:51.121 HYPERVISOR: exec_cmd: vm delete R1 
+Dec 22 15:27:51.121 VM: VM R1 destroyed.
+Dec 22 15:27:51.122 HYPERVISOR: exec_cmd: hypervisor stop 
+Dec 22 15:27:51.333 HYPERVISOR: Stopped.
+Dec 22 15:27:51.333 GENERAL: reset done.
