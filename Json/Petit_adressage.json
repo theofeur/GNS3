@@ -1,0 +1,133 @@
+{
+    "project": {
+      "name": "petit_adressage_test",
+      "version": "1"
+    },
+    "nodes": [
+      {
+        "name": "R1",
+        "x": 100,
+        "y": 100,
+        "node_type": "dynamips",
+        "compute_id": "local",
+        "symbol": "ROUTER",
+        "properties": {
+          "adapters": [
+            {
+              "config": {
+                "interfaces": [
+                  {
+                    "name": "gigabitEthernet1/0",
+                    "type": "ethernet",
+                    "ipv6": "2001:100:1:1::1/64"
+                  }
+                ]
+              }
+            }
+          ],
+          "routing": {
+            "protocol": "ripng",
+            "config": {
+              "version": 1
+            }
+          }
+        }
+      },
+      {
+        "name": "R2",
+        "x": 200,
+        "y": 100,
+        "node_type": "dynamips",
+        "compute_id": "local",
+        "symbol": "ROUTER",
+        "properties": {
+          "adapters": [
+            {
+              "config": {
+                "interfaces": [
+                  {
+                    "name": "gigabitEthernet1/0",
+                    "type": "ethernet",
+                    "ipv6": "2001:100:1:1::2/64"
+                  }
+                ]
+              }
+            },
+        {
+            "name": "eth2",
+            "adapter_type": "ethernet",
+            "config": {
+              "interfaces": [
+                {
+                  "name": "gigabitEthernet2/0",
+                  "type": "ethernet",
+                  "ipv6": "2001:100:1:2::2/64"
+                }
+              ]
+            }
+        }
+          ],
+          "routing": {
+            "protocol": "ripng",
+            "config": {
+              "version": 1
+            }
+          }
+        }
+      },
+      {
+        "name": "R3",
+        "x": 300,
+        "y": 100,
+        "node_type": "dynamips",
+        "compute_id": "local",
+        "symbol": "ROUTER",
+        "properties": {
+          "adapters": [
+            {
+              "name": "eth2",
+              "adapter_type": "ethernet",
+              "config": {
+                "interfaces": [
+                  {
+                    "name": "gigabitEthernet2/0",
+                    "type": "ethernet",
+                    "ipv6": "2001:100:1:2::1/64"
+                  }
+                ]
+              }
+            }
+          ],
+          "routing": {
+            "protocol": "ripng",
+            "config": {
+              "version": 1
+            }
+          }
+        }
+      }
+    ],
+    "links": [
+      {
+        "nodes": ["R1", "R2"],
+        "adapted_links": [
+          {
+            "adapter": "eth1",
+            "adapter_number": 0,
+            "adapter_port": 0
+          }
+        ]
+      },
+      {
+        "nodes": ["R2", "R3"],
+        "adapted_links": [
+          {
+            "adapter": "eth2",
+            "adapter_number": 0,
+            "adapter_port": 0
+          }
+        ]
+      }
+    ],
+    "project_id": "320547e5-bf62-4d8a-a9ac-c52f0877e71d"
+  }
