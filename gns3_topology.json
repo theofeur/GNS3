@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0.1",
+  "version": "1.0.1.1",
   "project_name": "petit_adressage_test",
   "topology": {
     "routeurs": [
@@ -14,13 +14,10 @@
         "config": {
           "interfaces": {
             "interface1": {
-              "name": "gigabitEtherne1/0",
+              "name": "gigabitEthernet1/0",
               "type": "ethernet",
-              "ipv6": "2001:100:1:1::1/64"
-            },
-            "routing": {
-              "protocol": "ripng",
-              "version": 1
+              "ipv6": "2001:100:1:1::1/64",
+              "routing_protocole": "ripng"
             }
           }
         }
@@ -36,101 +33,112 @@
         "config": {
           "interfaces": {
             "interface1": {
-              "name": "gigabitEtherne1/0",
+              "name": "gigabitEthernet1/0",
               "type": "ethernet",
-              "ipv6": "2001:100:1:2::2/64"
+              "ipv6": "2001:100:1:1::2/64",
+              "routing_protocole": "ripng"
             },
             "interface2": {
-              "name": "gigabitEtherne2/0",
+              "name": "gigabitEthernet2/0",
               "type": "ethernet",
-              "ipv6": "2001:100:1:2::2/64"
+              "ipv6": "2001:100:1:2::2/64",
+              "routing_protocole": "ripng"
             }
-          },
-          "routing": {
-            "protocol": "ripng",
-            "version": 1
           }
         }
       },
       {
         "informations": {
-          "name": "R2",
-          "x": 200,
+          "name": "R3",
+          "x": 300,
           "y": 100,
           "type": "router",
-          "label": "AS1-R2"
+          "label": "AS1-R3"
         },
         "config": {
           "interfaces": {
             "interface1": {
-              "name": "gigabitEtherne1/0",
+              "name": "gigabitEthernet2/0",
               "type": "ethernet",
-              "ipv6": "2001:100:1:2::2/64"
+              "ipv6": "2001:100:1:2::1/64",
+              "routing_protocole": "ripng"
             },
             "interface2": {
-              "name": "gigabitEtherne2/0",
+              "name": "gigabitEthernet3/0",
               "type": "ethernet",
-              "ipv6": "2001:100:1:2::2/64"
+              "ipv6": "2001:100:3:1::1/64",
+              "routing_protocole": "bgp"
             }
-          },
-          "routing": {
-            "protocol": "ripng",
-            "version": 1
           }
         }
       },
       {
-        "name": "R4",
-        "x": 100,
-        "y": 300,
-        "symbol": "router",
-        "label": "AS2-R4",
-        "console": 5004,
-        "type": "qemu",
-        "properties": {
-          "adapter_type": "virtio-net",
-          "image": "qemu-img",
-          "qemu_path": "/usr/bin/qemu-system-x86_64",
-          "ram": 256,
-          "hda_disk_image": "",
-          "cdrom_image": "",
-          "boot_priority": "c"
+        "informations": {
+          "name": "R4",
+          "x": 400,
+          "y": 100,
+          "type": "router",
+          "label": "AS2-R4"
+        },
+        "config": {
+          "interfaces": {
+            "interface1": {
+              "name": "gigabitEthernet3/0",
+              "type": "ethernet",
+              "ipv6": "2001:100:3:1::2/64",
+              "routing_protocole": "bgp"
+            },
+            "interface2": {
+              "name": "gigabitEthernet2/0",
+              "type": "ethernet",
+              "ipv6": "2001:100:2:1::1/64",
+              "routing_protocole": "ospf"
+            }
+          }
         }
       },
       {
-        "name": "R5",
-        "x": 200,
-        "y": 300,
-        "symbol": "router",
-        "label": "AS2-R5",
-        "console": 5005,
-        "type": "qemu",
-        "properties": {
-          "adapter_type": "virtio-net",
-          "image": "qemu-img",
-          "qemu_path": "/usr/bin/qemu-system-x86_64",
-          "ram": 256,
-          "hda_disk_image": "",
-          "cdrom_image": "",
-          "boot_priority": "c"
+        "informations": {
+          "name": "R5",
+          "x": 500,
+          "y": 100,
+          "type": "router",
+          "label": "AS2-R5"
+        },
+        "config": {
+          "interfaces": {
+            "interface1": {
+              "name": "gigabitEthernet2/0",
+              "type": "ethernet",
+              "ipv6": "2001:100:2:1::2/64",
+              "routing_protocole": "ospf"
+            },
+            "interface2": {
+              "name": "gigabitEthernet1/0",
+              "type": "ethernet",
+              "ipv6": "2001:100:2:2::2/64",
+              "routing_protocole": "ospf"
+            }
+          }
         }
       },
       {
-        "name": "R6",
-        "x": 300,
-        "y": 300,
-        "symbol": "router",
-        "label": "AS2-R6",
-        "console": 5006,
-        "type": "qemu",
-        "properties": {
-          "adapter_type": "virtio-net",
-          "image": "qemu-img",
-          "qemu_path": "/usr/bin/qemu-system-x86_64",
-          "ram": 256,
-          "hda_disk_image": "",
-          "cdrom_image": "",
-          "boot_priority": "c"
+        "informations": {
+          "name": "R6",
+          "x": 600,
+          "y": 100,
+          "type": "router",
+          "label": "AS2-R6"
+        },
+        "config": {
+          "interfaces": {
+            "interface1": {
+              "name": "gigabitEthernet1/0",
+              "type": "ethernet",
+              "ipv6": "2001:100:2:2::1/64",
+              "routing_protocole": "ospf"
+            }
+          }
         }
       }
     ],
