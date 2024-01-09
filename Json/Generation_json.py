@@ -1,59 +1,195 @@
 import json
 
 def create_gns3_topology():
+    
+    NOMBRE_ROUTEUR_PAR_AS = 3
+    
+    
+    
+    numero_interface = 1
+    
     topology = {
-        "version": "1.0.0.0",
+        "version": "1.0.1.1",
         "project_name": "petit_adressage_test",
         "topology": {
-            "nodes": [],
+            "routeurs": [],
             "links": []
         }
     }
 
     # Ajout des routeurs AS1 (R1, R2, R3) en Ripng
-    for i in range(1, 4):
-        router = {
-            "name": f"R{i}",
-            "x": i * 100,
-            "y": 100,
-            "symbol": "router",
-            "node_type": "dynamips",
-            "compute_id": "local",
-            "symbol": "ROUTER",
-            "label": f"AS1-R{i}",
-            "properties": {
-                "adapter_type": "virtio-net",
-                "image": "qemu-img",
-                "qemu_path": "/usr/bin/qemu-system-x86_64",
-                "ram": 256,
-                "hda_disk_image": "",
-                "cdrom_image": "",
-                "boot_priority": "c"
-            }
+    for i in range(1, NOMBRE_ROUTEUR_PAR_AS+1):
+        if i%2==0:
+            numero_interface=2
+        else:
+            numero_interface=1
+        if i==1:
+            router = {
+                "informations": {
+                    "name": f"R{i}",
+                    "x": i * 100,
+                    "y": 100,
+                    "type": "router",
+                    "ASnumber": 1
+                },
+                "config": {
+                    "interfaces": {
+                        "interface1": {
+                            "name": f"gigabitEthernet{i}/0",
+                            "type": "ethernet",
+                            "ipv6": f"2001:100:1:{i}::{numero_interface}/64",
+                            "routing_protocole": "ripng"
+                        }
+                    }         
+                }
         }
-        topology["topology"]["nodes"].append(router)
+            
+            
+        elif i!=NOMBRE_ROUTEUR_PAR_AS:
+            router = {
+                "informations": {
+                    "name": f"R{i}",
+                    "x": i * 100,
+                    "y": 100,
+                    "type": "router",
+                    "ASnumber": 1
+                    },
+                "config": {
+                    "interfaces": {
+                        "interface1": {
+                            "name": f"gigabitEthernet{i-1}/0",
+                            "type": "ethernet",
+                            "ipv6": f"2001:100:1:{i-1}::{numero_interface}/64",
+                            "routing_protocole": "ripng"
+                        },
+                        "interface2": {
+                            "name": f"gigabitEthernet{i}/0",
+                            "type": "ethernet",
+                            "ipv6": f"2001:100:1:{i}::{numero_interface}/64",
+                            "routing_protocole": "ripng"
+                        }
+                    }
+                }
+            }
+            
+        elif i==NOMBRE_ROUTEUR_PAR_AS:
+                router = {
+                    "informations": {
+                        "name": f"R{i}",
+                        "x": i * 100,
+                        "y": 100,
+                        "type": "router",
+                        "ASnumber": 1
+                        },
+                    "config": {
+                        "interfaces": {
+                            "interface1": {
+                                "name": f"gigabitEthernet{i-1}/0",
+                                "type": "ethernet",
+                                "ipv6": f"2001:100:1:{i-1}::{numero_interface}/64",
+                                "routing_protocole":"ripng"
+                            },
+                            "interface2": {
+                                "name": f"gigabitEthernet{i}/0",
+                                "type": "ethernet",
+                                "ipv6": f"2001:100:3:1::1/64",
+                                "routing_protocole":"bgp"
+                        }
+                    }
+                }
+            }     
+            
+            
+            
+            
+        
+        topology["topology"]["routeurs"].append(router)
 
     # Ajout des routeurs AS2 (R4, R5, R6) en OSPF
-    for i in range(4, 7):
-        router = {
-            "name": f"R{i}",
-            "x": (i - 3) * 100,
-            "y": 300,
-            "symbol": "router",
-            "label": f"AS2-R{i}",
-            "console": 5000 + i,
-            "type": "qemu",
-            "properties": {
-                "adapter_type": "virtio-net",
-                "image": "qemu-img",
-                "qemu_path": "/usr/bin/qemu-system-x86_64",
-                "ram": 256,
-                "hda_disk_image": "",
-                "cdrom_image": "",
-                "boot_priority": "c"
+    for i in range(NOMBRE_ROUTEUR_PAR_AS+1, NOMBRE_ROUTEUR_PAR_AS*2+1):
+        
+        if i%2==0:
+            numero_interface=1
+        else:
+            numero_interface=2
+        
+        
+        if i==NOMBRE_ROUTEUR_PAR_AS+1:
+            router = {
+                    "informations": {
+                        "name": f"R{i}",
+                        "x": i * 100,
+                        "y": 100,
+                        "type": "router",
+                        "ASnumber": 2
+                        },
+                    "config": {
+                        "interfaces": {
+                            "interface1": {
+                                "name": f"gigabitEthernet{NOMBRE_ROUTEUR_PAR_AS*2-i+1}/0",
+                                "type": "ethernet",
+                                "ipv6": f"2001:100:3:1::2/64",
+                                "routing_protocole":"bgp"
+                            },
+                            "interface2": {
+                                "name": f"gigabitEthernet{NOMBRE_ROUTEUR_PAR_AS*2-i}/0",
+                                "type": "ethernet",
+                                "ipv6": f"2001:100:2:1::{numero_interface}/64",
+                                "routing_protocole": "ospf"
+                        }
+                    }
+                }
             }
-        }
-        topology["topology"]["nodes"].append(router)
+        
+        elif i!=NOMBRE_ROUTEUR_PAR_AS*2:
+            router = {
+                    "informations": {
+                        "name": f"R{i}",
+                        "x": i * 100,
+                        "y": 100,
+                        "type": "router",
+                        "ASnumber": 2
+                        },
+                    "config": {
+                        "interfaces": {
+                            "interface1": {
+                                "name": f"gigabitEthernet{NOMBRE_ROUTEUR_PAR_AS*2-i+1}/0",
+                                "type": "ethernet",
+                                "ipv6": f"2001:100:2:{-NOMBRE_ROUTEUR_PAR_AS+i-1}::{numero_interface}/64",
+                                "routing_protocole":"ospf"
+                            },
+                            "interface2": {
+                                "name": f"gigabitEthernet{NOMBRE_ROUTEUR_PAR_AS*2-i}/0",
+                                "type": "ethernet",
+                                "ipv6": f"2001:100:2:{-NOMBRE_ROUTEUR_PAR_AS+i}::{numero_interface}/64",
+                                "routing_protocole": "ospf"
+                        }
+                    }
+                }
+            }
+            
+        elif i==NOMBRE_ROUTEUR_PAR_AS*2:
+                router = {
+                    "informations": {
+                        "name": f"R{i}",
+                        "x": i * 100,
+                        "y": 100,
+                        "type": "router",
+                        "ASnumber": 2
+                        },
+                    "config": {
+                        "interfaces": {
+                            "interface1": {
+                                "name": f"gigabitEthernet{NOMBRE_ROUTEUR_PAR_AS*2-i+1}/0",
+                                "type": "ethernet",
+                                "ipv6": f"2001:100:2:{-NOMBRE_ROUTEUR_PAR_AS+i-1}::{numero_interface}/64",
+                                "routing_protocole":"ospf"
+                            }
+                    }
+                }
+            } 
+                
+        topology["topology"]["routeurs"].append(router)
 
     # Connexion entre R3 et R4 en BGP
     link_bgp = {
