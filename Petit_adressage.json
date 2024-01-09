@@ -1,6 +1,6 @@
 {
     "project": {
-      "name": "GNS3_Petit_adressage",
+      "name": "petit_adressage_test",
       "version": "1"
     },
     "nodes": [
@@ -8,16 +8,12 @@
         "name": "R1",
         "x": 100,
         "y": 100,
-        "node_type": "router",
+        "node_type": "dynamips",
+        "compute_id": "local",
         "symbol": "ROUTER",
-        "compute": {
-          "status": "started"
-        },
         "properties": {
           "adapters": [
             {
-              "name": "eth1",
-              "adapter_type": "ethernet",
               "config": {
                 "interfaces": [
                   {
@@ -41,16 +37,12 @@
         "name": "R2",
         "x": 200,
         "y": 100,
-        "node_type": "router",
+        "node_type": "dynamips",
+        "compute_id": "local",
         "symbol": "ROUTER",
-        "compute": {
-          "status": "started"
-        },
         "properties": {
           "adapters": [
             {
-              "name": "eth1",
-              "adapter_type": "ethernet",
               "config": {
                 "interfaces": [
                   {
@@ -87,11 +79,9 @@
         "name": "R3",
         "x": 300,
         "y": 100,
-        "node_type": "router",
+        "node_type": "dynamips",
+        "compute_id": "local",
         "symbol": "ROUTER",
-        "compute": {
-          "status": "started"
-        },
         "properties": {
           "adapters": [
             {
@@ -138,5 +128,6 @@
           }
         ]
       }
-    ]
+    ],
+    "project_id": "320547e5-bf62-4d8a-a9ac-c52f0877e71d"
   }
