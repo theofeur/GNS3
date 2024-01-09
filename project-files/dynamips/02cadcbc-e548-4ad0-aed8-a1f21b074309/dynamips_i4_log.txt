@@ -1,0 +1,51 @@
+Jan 05 18:27:08.952 HYPERVISOR: Release 0.2.17-x86/Windows (tag 2017072410)
+Jan 05 18:27:08.952 HYPERVISOR: Started on IP = localhost, TCP port = 53024.
+Jan 05 18:27:09.467 HYPERVISOR: exec_cmd: hypervisor version 
+Jan 05 18:27:09.467 HYPERVISOR: exec_cmd: hypervisor working_dir C:\Users\tangs\OneDrive\Documents\Ecole\INSA\TC1\GNS3\TP GNS3\project-files\dynamips 
+Jan 05 18:27:09.476 GENERAL: working_dir=C:\Users\tangs\OneDrive\Documents\Ecole\INSA\TC1\GNS3\TP GNS3\project-files\dynamips
+Jan 05 18:27:09.476 HYPERVISOR: exec_cmd: hypervisor working_dir C:\Users\tangs\OneDrive\Documents\Ecole\INSA\TC1\GNS3\TP GNS3\project-files\dynamips\0adb2f82-a563-4ed4-a9ce-7120670047c9 
+Jan 05 18:27:09.476 GENERAL: working_dir=C:\Users\tangs\OneDrive\Documents\Ecole\INSA\TC1\GNS3\TP GNS3\project-files\dynamips\0adb2f82-a563-4ed4-a9ce-7120670047c9
+Jan 05 18:27:09.478 HYPERVISOR: exec_cmd: vm create R2 2 c7200 
+Jan 05 18:27:09.478 VM: VM R2 created.
+Jan 05 18:27:09.478 HYPERVISOR: exec_cmd: vm set_con_tcp_port R2 5002 
+Jan 05 18:27:09.478 HYPERVISOR: exec_cmd: c7200 get_mac_addr R2 
+Jan 05 18:27:09.478 HYPERVISOR: exec_cmd: vm get_status R2 
+Jan 05 18:27:09.478 HYPERVISOR: exec_cmd: vm slot_add_binding R2 0 0 C7200-IO-FE 
+Jan 05 18:27:09.478 HYPERVISOR: exec_cmd: vm set_disk0 R2 0 
+Jan 05 18:27:09.478 HYPERVISOR: exec_cmd: vm set_exec_area R2 64 
+Jan 05 18:27:09.478 HYPERVISOR: exec_cmd: vm set_ios R2 C:/Users/tangs/OneDrive/Documents/Ecole/INSA/TC1/NRP/c7200-advipservicesk9-mz.152-4.S5.image 
+Jan 05 18:27:09.482 HYPERVISOR: exec_cmd: c7200 set_mac_addr R2 ca02.55ac.0000 
+Jan 05 18:27:09.483 HYPERVISOR: exec_cmd: vm set_nvram R2 512 
+Jan 05 18:27:09.483 HYPERVISOR: exec_cmd: vm set_ram R2 512 
+Jan 05 18:27:09.483 HYPERVISOR: exec_cmd: vm get_status R2 
+Jan 05 18:27:09.483 HYPERVISOR: exec_cmd: vm slot_add_binding R2 1 0 PA-GE 
+Jan 05 18:27:09.483 HYPERVISOR: exec_cmd: vm get_status R2 
+Jan 05 18:27:09.483 HYPERVISOR: exec_cmd: vm slot_add_binding R2 2 0 PA-GE 
+Jan 05 18:27:09.483 HYPERVISOR: exec_cmd: vm get_status R2 
+Jan 05 18:27:09.483 HYPERVISOR: exec_cmd: vm slot_add_binding R2 3 0 PA-GE 
+Jan 05 18:27:09.483 HYPERVISOR: exec_cmd: vm set_con_tcp_port R2 5002 
+Jan 05 18:27:11.628 HYPERVISOR: exec_cmd: nio create_udp udp-763bef5e-6cc5-4aa1-96c0-a69f52d2c2bf 20004 127.0.0.1 20005 
+Jan 05 18:27:11.887 HYPERVISOR: exec_cmd: vm slot_add_nio_binding R2 1 0 udp-763bef5e-6cc5-4aa1-96c0-a69f52d2c2bf 
+Jan 05 18:27:11.887 HYPERVISOR: exec_cmd: vm get_status R2 
+Jan 05 18:27:11.930 HYPERVISOR: exec_cmd: nio create_udp udp-87302db4-fdcf-4c85-bf86-cbffeb28ae6e 20008 127.0.0.1 20009 
+Jan 05 18:27:11.935 HYPERVISOR: exec_cmd: vm slot_add_nio_binding R2 2 0 udp-87302db4-fdcf-4c85-bf86-cbffeb28ae6e 
+Jan 05 18:27:11.935 HYPERVISOR: exec_cmd: vm get_status R2 
+Jan 05 18:27:23.581 HYPERVISOR: exec_cmd: vm set_ghost_status R2 2 
+Jan 05 18:27:23.599 HYPERVISOR: exec_cmd: vm set_ghost_file R2 C:\Users\tangs\OneDrive\Documents\Ecole\INSA\TC1\GNS3\TP GNS3\project-files\dynamips\c7200-advipservicesk9-mz.152-4.S5.image-512.ghost 
+Jan 05 18:27:23.599 HYPERVISOR: exec_cmd: vm get_status R2 
+Jan 05 18:27:23.611 HYPERVISOR: exec_cmd: vm set_config R2 configs\i2_startup-config.cfg configs\i2_private-config.cfg 
+Jan 05 18:27:23.611 HYPERVISOR: exec_cmd: vm start R2 
+Jan 05 18:27:53.931 HYPERVISOR: exec_cmd: vm extract_config R2 
+Jan 05 18:29:08.384 HYPERVISOR: exec_cmd: vm get_status R2 
+Jan 05 18:29:08.384 HYPERVISOR: exec_cmd: vm stop R2 
+Jan 05 18:29:08.557 VM: VM R2 shutdown.
+Jan 05 18:29:08.557 HYPERVISOR: exec_cmd: vm extract_config R2 
+Jan 05 18:29:23.725 HYPERVISOR: exec_cmd: vm get_status R2 
+Jan 05 18:29:23.726 HYPERVISOR: exec_cmd: vm extract_config R2 
+Jan 05 18:29:23.856 HYPERVISOR: exec_cmd: vm get_status R2 
+Jan 05 18:29:23.863 HYPERVISOR: exec_cmd: vm extract_config R2 
+Jan 05 18:29:23.865 HYPERVISOR: exec_cmd: vm delete R2 
+Jan 05 18:29:23.865 VM: VM R2 destroyed.
+Jan 05 18:29:23.868 HYPERVISOR: exec_cmd: hypervisor stop 
+Jan 05 18:29:24.072 HYPERVISOR: Stopped.
+Jan 05 18:29:24.073 GENERAL: reset done.
