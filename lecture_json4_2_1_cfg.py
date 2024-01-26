@@ -1,7 +1,7 @@
 import json
 
 # Chemin vers le fichier JSON
-fichier_json = "three_AS.json"
+fichier_json = "gns3_topology.json"
 
 # Fonction pour lire le fichier JSON et renvoyer son contenu
 def lire_fichier_json(fichier_json):
@@ -105,6 +105,7 @@ def bgp(contenu_variable,config,info,AS_dico,header):
                                           ipv6=routeur["config"]["interfaces"][f"{interface_inter}"]["ipv6"].split("/")[0]
                                           ipv6_voisins.append(ipv6)
                                           texte+= f" neighbor {ipv6} remote-as {AS_tout['AS_number']} \n"
+                                          
     
     texte+=" ! \n address-family ipv4 \n exit-address-family \n ! \n address-family ipv6 \n"
 
@@ -113,6 +114,25 @@ def bgp(contenu_variable,config,info,AS_dico,header):
         
     for addr in ipv6_voisins : 
         texte += f"  neighbor {addr} activate \n"
+        if info["border_router"]=="true":
+            texte+= f" neighbor {addr} send community \n"
+            for interface in config["interfaces"].keys():
+                if interface != "interface_0":   
+                    if config["interfaces"][interface]["location"]=="inter":  
+                        for AS_tout in contenu_variable["topology"]["AS"] :
+                            for routeur in AS_tout["routeurs"]:
+                                if routeur["informations"]["name"]==config["interfaces"][interface]["neighbor"] :
+                                    for interface_inter in routeur['config']["interfaces"].keys() : 
+                                        if interface_inter != "interface_0":   
+                                            if routeur["config"]["interfaces"][interface_inter]["location"]=="inter":
+                                                if routeur["config"]["interfaces"][interface_inter]["business"]=="client" and addr == routeur["config"]["interfaces"][interface_inter]["ipv6"].split("/")[0]:
+                                                    texte += f" neighbor {addr} route-map CLIENT_IN in \n"
+                                                elif routeur["config"]["interfaces"][interface_inter]["business"]=="peer" and addr == routeur["config"]["interfaces"][interface_inter]["ipv6"].split("/")[0]:
+                                                    texte += f" neighbor {addr} route-map PEER_IN in \n"
+                                                    texte += f" neighbor {addr} route-map PP_OUT out \n"
+                                                elif routeur["config"]["interfaces"][interface_inter]["business"]=="provider" and addr == routeur["config"]["interfaces"][interface_inter]["ipv6"].split("/")[0]:
+                                                    texte += f" neighbor {addr} route-map PROVIDER_IN in \n"
+                                                    texte += f" neighbor {addr} route-map PP_OUT out \n"
 
     texte+=" exit-address-family \n"
     
@@ -128,6 +148,12 @@ def bgp(contenu_variable,config,info,AS_dico,header):
 
     else : 
         texte +="ipv6 router rip ripng \n redistribute connected \n"
+    
+    texte+="ip bgp community new-format\n ip community-list 1 permit 1\n ip community-list 2 permit 2\n ip community-list 3 permit 3 \n!\n"
+    texte+="route-map CLIENT_IN permit 10\n set community 1\nset local-preference 150\n!\n"
+    texte+="route-map PEER_IN permit 10\n set community 2\n set local-preference 100\n!\n"
+    texte+="route-map PROVIDER_IN permit 10\nset community 3\nset local-preference 50\n!\n"
+    texte+="route-map PP_OUT permit 10\nmatch community 1\n!\n"
     return texte
 
 # Appel de la fonction pour lire le fichier JSON
