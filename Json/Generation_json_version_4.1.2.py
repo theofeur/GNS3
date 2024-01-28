@@ -76,8 +76,7 @@ def create_gns3_topology():
             nombre_lien=1
             ASInformation = {"AS_number": f"{AS+1}",
                             "AS_protocol":  AS_PROTOCOLS[AS],
-                            "network": f"2001:100:{AS+1}/48",
-                            "subnet_count": "",
+                            "network": f"2001:100:{AS+1}::/48",
                             "routeurs": []
                             }
             topology["topology"]["AS"][AS]=ASInformation
