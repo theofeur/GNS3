@@ -21,6 +21,7 @@ def create_gns3_topology():
                 [0,0,0,0,0,0,0,"peer",0,0,0,0,0,0,0,0]]
     
     # Vous pouvez rajouter la communitie que vous souhaitez entre guillemets. Par défaut, les routeurs de bordures auront un business "admin"
+    # Rajouter le terme "client" à la 6eme ligne 15eme colonne signifira que le routeur 6 sera client pour le routeur 15
     
     
     # Indiquez les différents protocoles de vos AS
@@ -39,6 +40,8 @@ def create_gns3_topology():
     for i in range (0, len(NOMBRE_ROUTEUR_PAR_AS)):
         Total_router+=NOMBRE_ROUTEUR_PAR_AS[i]
 
+
+    # On vérifie dans un premier temps que la matrice d'adjacence et le nombre de routeur sont correspondants.
     if(Total_router != len(Adjacence)):
         print("Erreur de correspondance entre la matrice d'adjacence et les nombres de routeurs")
         return
@@ -61,6 +64,8 @@ def create_gns3_topology():
         # Cette variable compte le nombre de routeur au fil des boucles à travers les AS
         compteur_routeur=0
         
+        
+        # On fait une boucle pour toutes les AS
         for AS in range(0,len(AS_PROTOCOLS)):
 
             # Ces 2 variables permettent de calculer le nombre de routeur AVANT et APRES le nombre de routeur de l'AS étudié. Cela sert lors de l'assignation des voisins.
@@ -79,6 +84,8 @@ def create_gns3_topology():
                 for i in range(AS+1,len(NOMBRE_ROUTEUR_PAR_AS)):
                     routeur_apres+=NOMBRE_ROUTEUR_PAR_AS[i]
             nombre_lien=1
+            
+            # On indique les différentes informations de l'AS
             ASInformation = {"AS_number": f"{AS+1}",
                             "AS_protocol":  AS_PROTOCOLS[AS],
                             "network": f"2001:100:{AS+1}::/48",
@@ -86,9 +93,12 @@ def create_gns3_topology():
                             }
             topology["topology"]["AS"][AS]=ASInformation
             
+            # Désormais, on fait une boucle sur tout les routeurs de l'AS
             for i in range (0, NOMBRE_ROUTEUR_PAR_AS[AS]):  
                 is_a_border_router = False 
-                compteur_routeur+=1      
+                compteur_routeur+=1   
+                
+                # On indique les différentes informations du routeur   
                 router = {
                         "informations": {
                             "name": f"R{compteur_routeur}",
@@ -109,8 +119,9 @@ def create_gns3_topology():
                 # On va se déplacer dans la matrice d'adjacence et ajouter les interfaces 1 à 1
                 for j in range(0, len(Adjacence)):
                     
+                    # Dans un premier temps, on test si la case est de type int
                     if type(Adjacence[routeur_avant+i][j])==int:
-                        # S'il y a un "1" dans la matrice d'adjacence, cela signifie qu'il y a un lien entre 2 routeurs, dans ce cas:
+                        # S'il y a autre chose qu'un 0 dans la matrice d'adjacence, cela signifie qu'il y a un lien entre 2 routeurs, dans ce cas:
                         if Adjacence[routeur_avant+i][j]!=0:
                             # On définit une variable "nombre_interface" qui va servir à indiquer une interface non-utilisée
                             nombre_interface= len(router["config"]["interfaces"])
@@ -120,7 +131,7 @@ def create_gns3_topology():
                             if(routeur_avant <= j < Total_router-routeur_apres):
                             # On rajoute les informations de l'interface. La clé "location" indique qu'on est à l'interieur d'une même AS
                                 if nombre_interface==4:
-                                    
+                                    # Par défaut, on indique que l'interface "4" sera toujours un FastEthernet pour garder une cohérence avec GNS3. Bien sur, ce chiffre est modifiable
                                     info = {
                                             "name": "FastEthernet0/0",
                                             "location": "intra",
@@ -132,7 +143,7 @@ def create_gns3_topology():
                                             "location": "intra",
                                             "neighbor": f"R{j+1}",
                                             }
-                                # Si le protocole de l'interface est ospf, on rajoute une information sur la métrique du lien, que l'on initialise à 100. Cette valeur sera changeable manuellement.
+                                # Si le protocole de l'interface est ospf, on rajoute une information sur la métrique du lien, que l'on initialise à 1. Cette valeur sera changeable manuellement.
                                 if(AS_PROTOCOLS[AS]=="ospf"):
                                     if(Adjacence[routeur_avant+i][j]==1):
                                         info["cost"]=1
@@ -145,13 +156,8 @@ def create_gns3_topology():
                                     nombre_lien+=1
                                 # Sinon, on récupère l'adressage du lien établi puis on le modifie pour assurer qu'on n'ait pas les mêmes adresses
                                 else:
-                                    compteur_routeur_as_voisin=0
-                                    for x in range(0, len(NOMBRE_ROUTEUR_PAR_AS)):
-                                        compteur_routeur_as_voisin+=NOMBRE_ROUTEUR_PAR_AS[x]
-                                        if j<compteur_routeur_as_voisin:
-                                            break
-                                    # Ici, on se déplace dans les différents interfaces du voisin dont le lien a déjà été établi 
                                     
+                                    # Ici, on se déplace dans les différents interfaces du voisin dont le lien a déjà été établi    
                                     for z in range(1, len(topology["topology"]["AS"][AS]["routeurs"][j-routeur_avant]["config"]["interfaces"])):
                                         # On cherche l'interface pour trouver celui qui correspond au routeur que l'on est en train de traiter
                                         if topology["topology"]["AS"][AS]["routeurs"][j-routeur_avant]["config"]["interfaces"][f"interface_{z}"]["neighbor"]==f"R{routeur_avant+i+1}":
@@ -188,6 +194,8 @@ def create_gns3_topology():
                                 else:
                                     # Ici, on se déplace dans les différents interfaces du voisin dont le lien a déjà été établi 
                                     compteur_routeur_as_voisin=0
+                                    
+                                    # Cette boucle permet de compter le nombre de routeur qu'on a déjà traversé pour garder une cohérence au fil des AS
                                     for x in range(0, len(NOMBRE_ROUTEUR_PAR_AS)):
                                         compteur_routeur_as_voisin+=NOMBRE_ROUTEUR_PAR_AS[x]
                                         if j<compteur_routeur_as_voisin:
@@ -203,14 +211,17 @@ def create_gns3_topology():
                                             info["ipv6"]=substring[0]+f":{j+1}/64"
 
                             router["config"]["interfaces"][interface]=info
-                        
-                    elif type(Adjacence[routeur_avant+i][j])==str:           
+                            
+                    # Si le type n'est pas int, alors on test si le type est string        
+                    elif type(Adjacence[routeur_avant+i][j])==str:     
+                        # Dans ce cas, on est normalement sur un routeur de bordure      
                         # On définit une variable "nombre_interface" qui va servir à indiquer une interface non-utilisée
                             nombre_interface= len(router["config"]["interfaces"])
                             interface = f"interface_{nombre_interface}"
                             
                             # Si les voisins étudiés sont inférieurs au nombre de routeur par AS, cela signifie qu'on est encore dans l'AS.
                             if(routeur_avant <= j < Total_router-routeur_apres):
+                                # Il y a donc une erreur
                                 print("Erreur: community dans un routeur intra-AS")
                             
                             # Si le voisin n'est pas dans l'AS, alors le routeur est automatiquement un routeur de bordure
