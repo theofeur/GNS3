@@ -176,6 +176,7 @@ def create_gns3_topology():
                                             "name": "FastEthernet0/0",
                                             "location": "inter",
                                             "neighbor": f"R{j+1}",
+                                            "business": "admin"
                                             }
                                 else:
                                     info = {
