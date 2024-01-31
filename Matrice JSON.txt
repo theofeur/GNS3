@@ -1,0 +1,82 @@
+SETUP EXEMPLE + AS BUSINESS
+-----------------------------------------------------------------------------------
+# Indiquez l'adjacence des différents routeurs
+    Adjacence= [[0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                [1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                [1,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                [0,1,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0],
+                [0,0,1,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0],
+                [0,0,0,1,1,0,0,1,0,0,0,0,0,0,0,0,"provider",0],
+                [0,0,0,1,1,0,0,0,1,0,0,0,0,0,"client",0,0,0],
+                [0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,"peer",0,0],
+                [0,0,0,0,0,0,1,0,0,1,1,0,0,0,0,0,0,"client"],
+                [0,0,0,0,0,0,0,1,1,0,1,1,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,1,1,1,0,0,1,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,1,0,0,1,1,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,0,1,1,0,1,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0],
+                [0,0,0,0,0,0,"provider",0,0,0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,"peer",0,0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,"client",0,0,0,0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,"provider",0,0,0,0,0,0,0,0,0]]
+    
+    # Vous pouvez rajouter la communitie que vous souhaitez entre guillemets. Par défaut, les routeurs de bordures auront un business "admin"
+    # Rajouter le terme "client" à la 6eme ligne 15eme colonne signifira que le routeur 6 sera client pour le routeur 15
+    
+    
+    # Indiquez les différents protocoles de vos AS
+    AS_PROTOCOLS = ["ripng","ospf","ripng","ripng","ripng","ripng"]
+
+    
+    # Indiquez le nombre de routeur dans chaque AS
+    NOMBRE_ROUTEUR_PAR_AS = [7,7,1,1,1,1]
+
+
+
+-----------------------------------------------------------------------------------
+SETUP 3 AS
+-----------------------------------------------------------------------------------
+# Indiquez l'adjacence des différents routeurs
+    Adjacence= [[0,1,1,0,0,0,0,0],
+		[1,0,1,1,0,0,0,0],
+		[1,1,0,0,0,0,1,0],
+		[0,1,0,0,1,1,1,0],
+		[0,0,0,1,0,0,0,0],
+		[0,0,0,1,0,0,0,0],
+		[0,0,1,1,0,0,0,1],
+		[0,0,0,0,0,0,1,0]]
+    
+    # Vous pouvez rajouter la communitie que vous souhaitez entre guillemets. Par défaut, les routeurs de bordures auront un business "admin"
+    # Rajouter le terme "client" à la 6eme ligne 15eme colonne signifira que le routeur 6 sera client pour le routeur 15
+    
+    
+    # Indiquez les différents protocoles de vos AS
+    AS_PROTOCOLS = ["ripng","ospf","ripng"]
+
+    
+    # Indiquez le nombre de routeur dans chaque AS
+    NOMBRE_ROUTEUR_PAR_AS = [3,3,2]
+
+
+-----------------------------------------------------------------------------------
+SETUP 3 routeurs alignés
+-----------------------------------------------------------------------------------
+
+# Indiquez l'adjacence des différents routeurs
+    Adjacence= [[0,1,0,0,0,0],
+		[1,0,1,0,0,0],
+		[0,1,0,1,0,0],
+		[0,0,1,0,1,0],
+		[0,0,0,1,0,1],
+		[0,0,0,0,1,0]]
+    
+    # Vous pouvez rajouter la communitie que vous souhaitez entre guillemets. Par défaut, les routeurs de bordures auront un business "admin"
+    # Rajouter le terme "client" à la 6eme ligne 15eme colonne signifira que le routeur 6 sera client pour le routeur 15
+    
+    
+    # Indiquez les différents protocoles de vos AS
+    AS_PROTOCOLS = ["ripng","ospf"]
+
+    
+    # Indiquez le nombre de routeur dans chaque AS
+    NOMBRE_ROUTEUR_PAR_AS = [3,3]
