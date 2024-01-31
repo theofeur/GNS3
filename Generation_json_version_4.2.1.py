@@ -3,33 +3,35 @@ import json
 def create_gns3_topology():
     
     # Indiquez l'adjacence des différents routeurs
-    Adjacence= [[0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0],
-                [1,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0],
-                [0,1,0,0,1,1,1,0,0,0,0,0,0,0,0,0],
-                [0,0,1,1,0,1,1,0,0,0,0,0,0,0,0,0],
-                [0,0,0,1,1,0,0,1,0,0,0,0,0,0,0,0],
-                [0,0,0,1,1,0,0,0,1,0,0,0,0,0,"client",0],
-                [0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,"peer"],
-                [0,0,0,0,0,0,1,0,0,1,1,0,0,0,0,0],
-                [0,0,0,0,0,0,0,1,1,0,1,1,0,0,0,0],
-                [0,0,0,0,0,0,0,1,1,1,0,0,1,0,0,0],
-                [0,0,0,0,0,0,0,0,0,1,0,0,1,1,0,0],
-                [0,0,0,0,0,0,0,0,0,0,1,1,0,1,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0],
-                [0,0,0,0,0,0,"provider",0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,"peer",0,0,0,0,0,0,0,0]]
+    Adjacence= [[0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"client"],
+                [1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                [1,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                [0,1,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0],
+                [0,0,1,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0],
+                [0,0,0,1,1,0,0,1,0,0,0,0,0,0,0,0,"provider",0],
+                [0,0,0,1,1,0,0,0,1,0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,"peer",0,0,0],
+                [0,0,0,0,0,0,1,0,0,1,1,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,1,1,0,1,1,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,1,1,1,0,0,1,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,1,0,0,1,1,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,0,1,1,0,1,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,0,0,1,1,0,"provider",0,0,0],
+                [0,0,0,0,0,0,0,0,0,0,0,0,0,"client",0,0,0,0],
+                [0,0,0,0,0,0,0,"peer",0,0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,"client",0,0,0,0,0,0,0,0,0,0,0,0],
+                ["provider",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]
     
     # Vous pouvez rajouter la communitie que vous souhaitez entre guillemets. Par défaut, les routeurs de bordures auront un business "admin"
     # Rajouter le terme "client" à la 6eme ligne 15eme colonne signifira que le routeur 6 sera client pour le routeur 15
     
     
     # Indiquez les différents protocoles de vos AS
-    AS_PROTOCOLS = ["ripng","ospf","ripng","ripng"]
+    AS_PROTOCOLS = ["ripng","ospf","ripng","ripng","ripng","ripng"]
 
     
     # Indiquez le nombre de routeur dans chaque AS
-    NOMBRE_ROUTEUR_PAR_AS = [7,7,1,1]
+    NOMBRE_ROUTEUR_PAR_AS = [7,7,1,1,1,1]
 
     
 
@@ -52,7 +54,7 @@ def create_gns3_topology():
         # On commence le json par des détails du projet
         topology = {
             "version": "4.2.1",
-            "project_name": "petit_adressage_test",
+            "project_name": "big_network",
             "topology": {
                 "AS":[{} for _ in range(len(AS_PROTOCOLS))]
             }
@@ -234,6 +236,7 @@ def create_gns3_topology():
                                     info = {
                                             "name": "FastEthernet0/0",
                                             "location": "inter",
+                                            "business": Adjacence[routeur_avant+i][j],
                                             "neighbor": f"R{j+1}",
                                             }
                                 else:
