@@ -1,29 +1,38 @@
-from gns3fy import Gns3Connector, Project 
-from telnetlib import Telnet
+import os
+import shutil
+
+"""fonction qui retourne le répertoire où se trouve le fichier 'nom_fichier_déjà_dedans' parmis les répertoires dans la liste dests """
+def trouve_repertoire_cible(dests, nom_fichier_déjà_dedans):
+    for repertoire in dests :
+        if nom_fichier_déjà_dedans in os.listdir(repertoire):
+            return repertoire
+    return None
+
+if __name__=="__main__":
+    """chemin vers répertoire contenant les fichiers cfg à déplacer"""
+    source = "C:\\Users\\tangs\\OneDrive\\Documents\\Ecole\\INSA\\TC1\\GNS3\\TP_GNS3\\Codes"
+    """chemin vers dynamips"""
+    dynamips="C:\\Users\\tangs\\OneDrive\\Documents\\Ecole\\INSA\\TC1\\GNS3\\TP_GNS3\\GNS3\\big_network_commu\\project-files\\dynamips\\"
+    dests=[]
+    result=[]
+    nb_routeurs = 16
+    
+    for repertoire in os.listdir(dynamips) : 
+        if os.path.isdir(dynamips + repertoire)==True :
+            dests.append(dynamips + "\\" + repertoire + '\\configs')
+    
+    if len(dests)==0 :
+        print("dests est vide zebi")
+
+    for k in range (1,nb_routeurs+1) :
+        nom_fichier = f"i{k}_startup-config.cfg"
+        rep_cible=trouve_repertoire_cible(dests, nom_fichier)
+        result.append(rep_cible)
+        """effacer le fichier qui est déjà dedans"""
+        os.remove(rep_cible + f"\\i{k}_startup-config.cfg") 
+    
+    """à partir d'ici les répertoires configs sont vides et placés dans result dans le bon ordre"""
+    for k in range (1,nb_routeurs+1) :
+        shutil.copy(source + f"\\i{k}_startup-config.cfg", result[k-1])
 
 
-def start_telnet(projet_name) :
-    serveur = Gns3Connector("http://localhost:3080")
-    projet = Project(name=projet_name,connector=serveur)
-        
-    projet.get()
-    projet.open()
-
-    noeuds = {}
-    for noeud in projet.nodes : 
-        noeuds[noeud.name] = Telnet(noeud.console_host,str(noeud.console))
-    return noeuds
-
-def commande(cmd,noeuds,routeur) :
-    if type(cmd) == str :
-        noeuds[routeur].write(bytes(cmd+"\r",encoding="ascii"))
-
-
-if __name__ == '__main__' :
-    noeuds = start_telnet("projet_essai_telnet")
-    commande("en", noeuds, "R1")
-    commande("conf t", noeuds, "R1")
-    commande("int GigabitEthernet 1/0", noeuds, "R1")
-    commande("ipv6 enable", noeuds, "R1")
-    commande("ipv6 address 2001:100:1:1::1/64", noeuds, "R1")
-    commande("no shutdown", noeuds, "R1")
