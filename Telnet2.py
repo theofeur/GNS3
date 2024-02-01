@@ -125,7 +125,7 @@ def bgp(contenu_variable, config, info, AS_dico, noeuds, name, router_id):
             commande(f"neighbor {ipv6} remote-as {AS_number}", noeuds, name)
             commande(f"neighbor {ipv6} update-source Loopback0", noeuds, name)
 
-    # Configuration spécifique pour le routeur de bord
+    # Configuration spécifique pour le routeur de bordure
     if info["border_router"] == "true":
         for interface in config["interfaces"].keys():
             if interface != "interface_0":
@@ -150,7 +150,7 @@ def bgp(contenu_variable, config, info, AS_dico, noeuds, name, router_id):
         commande(f"neighbor {addr} activate", noeuds, name)
         commande(f"neighbor {addr} send-community", noeuds, name)
 
-    # Configuration spécifique pour le routeur de bord
+    # Configuration spécifique pour le routeur de bordure
     if info["border_router"] == "true":
         for interface in config["interfaces"].keys():
             if interface != "interface_0":
