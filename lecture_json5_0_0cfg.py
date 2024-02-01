@@ -1,7 +1,7 @@
 import json
 
 # Chemin vers le fichier JSON
-fichier_json = "giga_big_network.json"
+fichier_json = "gns3_topology.json"
 
 # Fonction pour lire le fichier JSON et renvoyer son contenu
 def lire_fichier_json(fichier_json):
@@ -115,7 +115,7 @@ def bgp(contenu_variable,config,info,AS_dico,header):
     texte+=" ! \n address-family ipv4 \n exit-address-family \n ! \n address-family ipv6 \n"
 
     if info["border_router"]=="true":
-        texte += f"  network {AS_dico['network']} route-map SET_ADMIN\n"
+        texte += f"  network {AS_dico['network']} route-map SET_OWN\n"
 
     for addr in ipv6_voisins : 
         texte += f"  neighbor {addr} activate \n"
@@ -139,11 +139,11 @@ def bgp(contenu_variable,config,info,AS_dico,header):
 
     if info["border_router"]=="true":
 
-        texte+="\n!\nip bgp community new-format\nip community-list 1 permit 1\nip community-list 2 permit 2\nip community-list 3 permit 3 \n!\n"
+        texte+="\n!\nip bgp community new-format\nip community-list 1 permit 1\nip community-list 2 permit 2\nip community-list 3 permit 3 \nip community-list 4 permit 4 \n!\n"
         texte+="route-map CLIENT_IN permit 10\n set community 1\n set local-preference 150\n!\n"
         texte+="route-map PEER_IN permit 10\n set community 2\n set local-preference 100\n!\n"
         texte+="route-map PROVIDER_IN permit 10\n set community 3\n set local-preference 50\n!\n"
-        texte+="route-map SET_ADMIN permit 10\n match community 4\n!\n"
+        texte+="route-map SET_OWN permit 10\n set community 4\n!\n"
         texte+="route-map PP_OUT permit 10\n match community 1\n match community 4\n!\n"
 
     return texte

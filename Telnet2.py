@@ -125,7 +125,7 @@ def bgp(contenu_variable,config,info,AS_dico,noeuds,name,router_id):
         commande(f"neighbor {ipv6} remote-as {AS_number}", noeuds, name)
         commande(f"neighbor {ipv6} update-source Loopback0", noeuds, name)
 
-
+ 
     if info["border_router"]=="true":
         for interface in config["interfaces"].keys():
             if interface != "interface_0":   
@@ -140,23 +140,34 @@ def bgp(contenu_variable,config,info,AS_dico,noeuds,name,router_id):
                                                 ipv6=routeur["config"]["interfaces"][f"{interface_inter}"]["ipv6"].split("/")[0]
                                                 ipv6_voisins.append(ipv6)
                                                 commande(f"neighbor {ipv6} remote-as {AS_tout['AS_number']}",noeuds, name)       
-                                            if routeur["config"]["interfaces"][interface_inter]["business"]=="client" :
-                                                commande(f" neighbor {ipv6} route-map CLIENT_IN in \n",noeuds, name) 
-                                            elif routeur["config"]["interfaces"][interface_inter]["business"]=="peer":
-                                                commande(f" neighbor {ipv6} route-map PEER_IN in \n",noeuds,  name) 
-                                                commande(f" neighbor {ipv6} route-map PP_OUT out\n",noeuds,   name)
-                                            elif routeur["config"]["interfaces"][interface_inter]["business"]=="provider" :
-                                                commande(f" neighbor {ipv6} route-map PROVIDER_IN in \n",noeuds,  name) 
-                                                commande(f" neighbor {ipv6} route-map PP_OUT out\n",noeuds,   name)
     
     commande("address-family ipv6 unicast", noeuds, name)
 
     for addr in ipv6_voisins : 
         commande(f"neighbor {addr} activate", noeuds, name)
         commande(f"neighbor {addr} send-community", noeuds, name)
+    
+    if info["border_router"]=="true":
+        for interface in config["interfaces"].keys():
+            if interface != "interface_0":   
+                if config["interfaces"][interface]["location"]=="inter":  
+                    for AS_tout in contenu_variable["topology"]["AS"] :
+                        for routeur in AS_tout["routeurs"]:
+                            if routeur["informations"]["name"]==config["interfaces"][interface]["neighbor"] :
+                                for interface_inter in routeur['config']["interfaces"].keys() : 
+                                    if interface_inter != "interface_0":   
+                                        if routeur["config"]["interfaces"][interface_inter]["neighbor"]==info["name"]:      
+                                            if routeur["config"]["interfaces"][interface_inter]["business"]=="client" :
+                                                commande(f" neighbor {ipv6} route-map CLIENT_IN in",noeuds, name)
+                                            elif routeur["config"]["interfaces"][interface_inter]["business"]=="peer":
+                                                commande(f" neighbor {ipv6} route-map PEER_IN in",noeuds,  name) 
+                                                commande(f" neighbor {ipv6} route-map PP_OUT out",noeuds,   name)
+                                            elif routeur["config"]["interfaces"][interface_inter]["business"]=="provider" :
+                                                commande(f" neighbor {ipv6} route-map PROVIDER_IN in",noeuds,  name) 
+                                                commande(f" neighbor {ipv6} route-map PP_OUT out",noeuds,   name)
 
     if info["border_router"]=="true":
-        commande(f"network {AS_dico['network'] } route-map SET_ADMIN", noeuds, name)
+        commande(f"network {AS_dico['network'] } route-map SET_OWN", noeuds, name)
 
     commande(f"end", noeuds, name)
 
@@ -168,6 +179,7 @@ def bgp(contenu_variable,config,info,AS_dico,noeuds,name,router_id):
             commande("ip community-list 1 permit 1", noeuds, name)
             commande("ip community-list 2 permit 2", noeuds, name)
             commande("ip community-list 3 permit 3", noeuds, name)
+            commande("ip community-list 4 permit 4", noeuds, name)
 
             commande("route-map CLIENT_IN permit 10", noeuds, name)
             commande("set community 1", noeuds, name)
@@ -180,11 +192,11 @@ def bgp(contenu_variable,config,info,AS_dico,noeuds,name,router_id):
             commande("exit", noeuds, name)
 
             commande("route-map PROVIDER_IN permit 10", noeuds, name)
-            commande("set community 13", noeuds, name)
+            commande("set community 3", noeuds, name)
             commande("set local-preference 50", noeuds, name)
             commande("exit", noeuds, name)
 
-            commande("route-map SET_ADMIN permit 10", noeuds, name)
+            commande("route-map SET_OWN permit 10", noeuds, name)
             commande("set community 4", noeuds, name)
             commande("exit", noeuds, name)
 
@@ -196,8 +208,8 @@ def bgp(contenu_variable,config,info,AS_dico,noeuds,name,router_id):
     
 if __name__ == '__main__' :
 
-    fichier_json = "petit_network.json"
-    noeuds = start_telnet("test_telnet")
+    fichier_json = "gns3_topology.json"
+    noeuds = start_telnet("PROJET BIG AS TELLNET")
     contenu_variable = lire_fichier_json(fichier_json) 
     main(contenu_variable,noeuds)
     

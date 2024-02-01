@@ -22,7 +22,7 @@ def create_gns3_topology():
                 [0,0,0,0,0,"client",0,0,0,0,0,0,0,0,0,0,0,0],
                 ["provider",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]
     
-    # Vous pouvez rajouter la communitie que vous souhaitez entre guillemets. Par défaut, les routeurs de bordures auront un business "admin"
+    # Vous pouvez rajouter la communitie que vous souhaitez entre guillemets. Par défaut, les routeurs de bordures auront un business "own"
     # Rajouter le terme "client" à la 6eme ligne 15eme colonne signifira que le routeur 6 sera client pour le routeur 15
     
     

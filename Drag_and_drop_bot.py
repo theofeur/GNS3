@@ -10,12 +10,12 @@ def trouve_repertoire_cible(dests, nom_fichier_déjà_dedans):
 
 if __name__=="__main__":
     #chemin vers répertoire contenant les fichiers cfg à déplacer
-    source = 'C:\\Users\\gabir\\OneDrive\\Documents\\Répertoire_essai'
-    #chemin vers dynamips du projet
-    dynamips='C:\\Users\\gabir\\GNS3\\projects\\Net_Aut_Project_V2\\project-files\\dynamips\\'
+    source = 'C:\\Users\\theoa\\Documents\\GitHub'
+    #chemin vers dynamips\ du projet
+    dynamips='C:\\Users\\theoa\\Documents\\GitHub\\GNS3\\GNS3 Overlay\\PROJET BIG AS\\project-files\\dynamips\\'
     dests=[]
     result=[]
-    nb_routeurs = 6
+    nb_routeurs = 18
     
     #on sélectionne seulement les répertoires dans dynamips (on exclu les fichiers) et on les ajoute à dests[]
     for repertoire in os.listdir(dynamips) : 
